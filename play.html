@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<link rel="stylesheet" type="text/css" href="final.css">
+
+	<script>
+
+		window.onload = function(){
+			var text_input = document.getElementById("myText");
+			// Makes it so that when you load the document, you don't have to delete the starter text.
+			printStoryText("You are in a huge warehouse and you are alone.","p");
+			text_input.select();
+		}
+
+		function printStoryText(textToShow, textStyle){
+			var story = document.getElementById("storybox");
+			var userText = document.createElement(textStyle);
+			userText.appendChild(document.createTextNode(textToShow));
+			story.appendChild(userText);
+			story.appendChild(document.createElement("br"));
+			return(userText);
+
+		}
+		//If this didn't exist, you could play the game forever and ever and ever and we don't want that do we.
+		var turnCount = 0;
+		var inventory = [{"Name":"No tea"}];
+
+		function textKeyPress(inputThing){
+			//Makes the return key (13) do the input thing. inputThing = most recent user entered information.
+			if (event.keyCode == 13){
+				appendToBox(inputThing.value);
+				// Clears the field after transferring the information
+				processLine(inputThing.value);
+				inputThing.value = "";
+				turnCount = turnCount + 1;
+			}
+		}
+
+		function appendToBox(inputThing){
+			var story = document.getElementById("storybox");
+			var userText = document.createElement("i");
+			userText.appendChild(document.createTextNode(inputThing));
+			story.appendChild(userText);
+			story.appendChild(document.createElement("br"));
+		}
+		//Where we're trying to get the input to go
+
+		function processLine(inputThing){
+			var command = inputThing;
+			var story = document.getElementById("storybox");
+
+			if (command.search("get") > -1){
+				alert("yeah man");
+			}else if (command.search("wear") > -1){
+
+			}else if (command.search("use") > -1){
+
+			}else if (command.search("look") > -1){
+
+			}else if (command.search("inventory") > -1){
+				if (inventory.length > 0){
+					story.appendChild(document.createTextNode("you have:"));
+					story.appendChild(document.createElement("br"));
+					var iList = document.createElement("ul");
+					for(var i = 0; i<inventory.length; i++){
+						var item = document.createElement("li");
+						item.appendChild(document.createTextNode(inventory[i].Name));
+						iList.appendChild(item);
+					}
+					story.appendChild(iList);
+				}else{
+					story.appendChild(document.createTextNode("you carry nothing"));
+					story.appendChild(document.createElement("br"));
+				}
+			}else if (command.search("go") > -1){
+
+			}else if (command.search("north") >-1){
+
+			}else if (command.search("south") > -1){
+
+			}else if (command.search("east") > -1){
+
+			}else if (command.search("west") > -1){
+
+			}else{
+				alert("booooo");
+			}
+
+		}
+
+	</script>
+	<!-- If your browser doesn't allow JS; -->
+	<noscript>You'll be locked up forever. Or until your browser allows Javascript.</noscript>
+
+</head>
+
+
+<body>
+
+	<a href = "index.html" title = "Just remember that you'll have to start over">
+		<p>Back out</p>
+	</a>
+
+	<div class = "gamebox">
+		<!-- The place where the actual text adventure will appear -->
+		<div class = "storybox" id = "storybox"></div>
+		<!-- The box that you write the things in -->
+		<input name="myText" id = "myText" size="80" value="Please input text here" type="text" onkeypress="textKeyPress(this)" onfocus="select()">
+	</div>
+	<div>
+		<p id = "help">
+			Commands<br/>
+			Look (at noun) <br/>
+			Use noun (on noun) <br/>
+			Wear noun <br/>
+			Go direction <br/>
+			Inventory
+		</p>
+	</div>
+
+</body>
+
+</html>

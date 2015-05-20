@@ -34,7 +34,6 @@
 				// Clears the field after transferring the information
 				processLine(inputThing.value);
 				inputThing.value = "";
-				turnCount = turnCount + 1;
 			}
 		}
 
@@ -46,13 +45,24 @@
 			story.appendChild(document.createElement("br"));
 		}
 		//Where we're trying to get the input to go
+		// --Okay, this is the parser. I need to make the lines do things in the code now! I have the privilage of figuring this out! I'll set some variables.
+		var warehouseRoom = "beginning";
+		var wearing = [{"Name":"Pants", "Name":"Shirt", "Name":"Shoes"}];
 
 		function processLine(inputThing){
 			var command = inputThing;
 			var story = document.getElementById("storybox");
 
+			turnCount = turnCount + 1;
+
+			if(turnCount > 5){
+				//todo make different losing sequences with different pages, gack
+				alert("you have lost the game");
+				window.open("lose.html", '_self', false);
+			}
+
 			if (command.search("get") > -1){
-				alert("yeah man");
+
 			}else if (command.search("wear") > -1){
 
 			}else if (command.search("use") > -1){
@@ -75,6 +85,8 @@
 					story.appendChild(document.createElement("br"));
 				}
 			}else if (command.search("go") > -1){
+				// if(command.search("north") >-1)
+				//
 
 			}else if (command.search("north") >-1){
 
@@ -85,7 +97,8 @@
 			}else if (command.search("west") > -1){
 
 			}else{
-				alert("booooo");
+				//To do: create randomized error messages
+				printStoryText("You cough in the dust.")
 			}
 
 		}

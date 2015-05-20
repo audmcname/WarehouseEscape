@@ -1,3 +1,4 @@
+
 .play{
 	padding:10px;
 	background-color: #E65C00;
@@ -71,6 +72,7 @@ input:focus{
 	margin-left:auto;
 	margin-right:auto;
 	height:90%;
+	overflow:scroll;
 	/*background-color:gray;*/
 }
 
@@ -82,4 +84,47 @@ li{
 	list-style-type:none;
 	padding:0px;
 	margin:0px;
+}
+
+#footer{
+	width:50%;
+	background-color: silver;
+	margin:auto;
+	border: solid 10px #CF5300;
+	margin-top:10px;
+}
+
+#footer:hover{
+	border:solid 10px #e65c00;
+}
+
+
+/*whateveniscssalloftheseare needed to keep the parent from having 0 height. css, we are breaking up.*/
+#footer:after{
+	content:"";
+	clear:both;
+	display:table;
+}
+
+.menuLeft{
+	float:left;
+	width:50%;
+	align:left;
+	background-color: #CF5300;
+	text-align:left;
+}
+
+.menuRight{
+	float:right;
+	width:50%;
+	background-color: #CF5300;
+	text-align:right;
+}
+
+.menuLeft:hover{
+	background-color: #e65c00;
+}
+
+.menuRight:hover{
+	background-color: #e65c00;
 }

@@ -1,4 +1,3 @@
-
 .play{
 	padding:10px;
 	background-color: #E65C00;
@@ -72,7 +71,7 @@ input:focus{
 	margin-left:auto;
 	margin-right:auto;
 	height:90%;
-	overflow:scroll;
+	overflow-y:auto;
 	/*background-color:gray;*/
 }
 

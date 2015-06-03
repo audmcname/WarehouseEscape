@@ -1,0 +1,129 @@
+.play{
+	padding:10px;
+	background-color: #E65C00;
+	text-align: center;
+	width: 50%;
+	margin: auto;
+	margin-top: 10px;
+	font-family: Cooper, Impact;
+	font-size: 3em;
+}
+
+.play:hover{
+	background-color: #CF5300
+}
+
+body{
+	background-color: #CF5300;
+	background-image: url(http://upload.wikimedia.org/wikipedia/commons/b/bb/Rust_and_dirt.jpg);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	text-align: center;
+	margin-top: 20px
+}
+
+p{
+	background-color: #CF5300;
+	padding:10px;
+	width:50%;
+	margin: auto;
+	font-family: Georgia;
+	font-style: italic;
+	/*margin-top:10px;*/
+}
+
+.header{
+	font-family: Cooper, Impact;
+	font-size: 2em;
+	font-style: normal;
+}
+
+a{
+	text-decoration:none;
+	color: black;
+}
+
+.gamebox{
+	width:70%;
+	margin:auto;
+	margin-top:20px;
+	border:solid #CF5300 5px;
+	background-color:#e65c00;
+	height:500px;
+	padding:10px;
+	overflow:hidden;
+}
+
+input{
+	background-color:#e65c00;
+	border:solid #CF5300 5px;
+	font-size: 14px;
+	clear:top;
+}
+
+input:focus{
+	outline:none;
+	/*This make it so that when you select the box, the blue glow doesn't show up.*/
+}
+
+.storybox{
+	width:90%;
+	margin-left:auto;
+	margin-right:auto;
+	height:90%;
+	overflow-y:auto;
+	/*background-color:gray;*/
+}
+
+#help{
+	margin-top:10px;
+}
+
+li{
+	list-style-type:none;
+	padding:0px;
+	margin:0px;
+}
+
+#footer{
+	width:50%;
+	background-color: silver;
+	margin:auto;
+	border: solid 10px #CF5300;
+	margin-top:10px;
+}
+
+#footer:hover{
+	border:solid 10px #e65c00;
+}
+
+
+/*whateveniscssalloftheseare needed to keep the parent from having 0 height. css, we are breaking up.*/
+#footer:after{
+	content:"";
+	clear:both;
+	display:table;
+}
+
+.menuLeft{
+	float:left;
+	width:50%;
+	align:left;
+	background-color: #CF5300;
+	text-align:left;
+}
+
+.menuRight{
+	float:right;
+	width:50%;
+	background-color: #CF5300;
+	text-align:right;
+}
+
+.menuLeft:hover{
+	background-color: #e65c00;
+}
+
+.menuRight:hover{
+	background-color: #e65c00;
+}

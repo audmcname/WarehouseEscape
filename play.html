@@ -49,7 +49,7 @@
 		//Where we're trying to get the input to go
 		// --Okay, this is the parser. I need to make the lines do things in the code now! I have the privilage of figuring this out! I'll set some variables.
 		var warehouseRoom = "beginning";
-
+		
 		var escape = false;
 		var heavyPulley = "up";
 		var boxes = "stacked";
@@ -176,7 +176,7 @@
 				}else{
 					printStoryText("You are buck naked, and not a little embarrassed.")
 				}
-
+	
 			}else if (command.search("north") >-1){
 				if(warehouseRoom === "beginning"){
 					if(boxes === "stacked"){
@@ -206,7 +206,7 @@
 						printStoryText("Back at the pulley controls, you slowly move the nuclear containment barrel back into position, high above the tarp.","p");
 						heavyPulley = "up";
 					}
-
+					
 				}else if (warehouseRoom=== "middle"){
 
 				}else if (warehouseRoom === "end"){
@@ -218,7 +218,7 @@
 
 			}else if (command.search("east") > -1){
 				if(warehouseRoom === "beginning"){
-
+					
 				}else if (warehouseRoom=== "middle"){
 
 				}else if (warehouseRoom === "end"){
@@ -230,7 +230,7 @@
 
 			}else if (command.search("west") > -1){
 				if(warehouseRoom === "beginning"){
-
+					
 				}else if (warehouseRoom=== "middle"){
 
 				}else if (warehouseRoom === "end"){

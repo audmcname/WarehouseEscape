@@ -26,7 +26,7 @@
 		//If this didn't exist, you could play the game forever and ever and ever and we don't want that do we.
 		var turnCount = 0;
 		var inventory = [{"Name":"No tea"}];
-		var wearing = [{"Name":"Pants", "Name":"Shirt", "Name":"Shoes"}];
+		// var wearing = [{"Name":"Pants"}, {"Name":"Shirt"}, {"Name":"Shoes"}];
 
 		function textKeyPress(inputThing){
 			//Makes the return key (13) do the input thing. inputThing = most recent user entered information.
@@ -46,13 +46,29 @@
 			story.appendChild(document.createElement("br"));
 			story.appendChild(document.createElement("br"));
 		}
+
+		function isThatInMyPockets(thingName, inventory){
+			for(var i = 0; i < inventory.length; i++){
+				temp = inventory[i];
+				if(thingName.search(temp["Name"]) > -1){
+					return true;
+				}
+			}
+			return false;
+		}
 		//Where we're trying to get the input to go
 		// --Okay, this is the parser. I need to make the lines do things in the code now! I have the privilage of figuring this out! I'll set some variables.
 		var warehouseRoom = "beginning";
-		
+
 		var escape = false;
 		var heavyPulley = "up";
-		var boxes = "stacked";
+		//Gonna try objects
+
+		var boxes = {
+			position: "stacked",
+			plasticBox: "hidden" //cycles through hidden, unbroken and broken
+		}
+
 		var jedRocks = 0;
 		var wallStrength = 0;
 		//if this variable reaches...20? You die. A horrible sudden death.
@@ -71,80 +87,17 @@
 			}
 
 			if (command.search("take") > -1){
-				//make inventory work, taking things out and putting them in
+				takeTheThing(command);
 
 			}else if (command.search("discard") > -1){
 
-			}else if (command.search("wear") > -1){
+			// }else if (command.search("wear") > -1){
 
 			}else if (command.search("use") > -1){
-				if (command.search("self") > -1){
-					if (command.search("wall") > -1){
-						if (wallStrength === 0){
-							printStoryText("An idea dawns. You flex your arms, convincing yourself that you are possessed of a feline strength. You take a deep breath, and...run.", "p");
-							printStoryText("Your head hurts, but the visceral pain subsides some when you see a hairline crack in the musty wood.","p");
-							batteredness = batteredness + 1;
-							wallStrength = wallStrength +1;
-						}else if(wallStrength === 1){
-							printStoryText("Picking yourself back up, you tuck your arms into your armpits for a more areodynamic sprint. And to, you know, keep your survival instinct from trying to brace yourself against the rapidly approaching wall--", "p");
-							printStoryText("You try to pick yourself up, but it feels as though your right wrist may be broken.","p");
-							batteredness = batteredness + 1;
-							wallStrength = wallStrength + 1;
-						}else if(wallStrength === 2){
-							printStoryText("You need to escape. You NEED TO ESCAPE, you remind yourself. That life outside is the one that matters, none of these boxes and irradiated barrels and alarming pactches of tar...","p");
-							batteredness = batteredness + 1;
-							wallStrength = wallStrength +1;
-						}else if(wallStrength === 3){
-							printStoryText("You tried to hold that in your mind. Your ragged breathing sound somehow pulpy to your ears. You grasp your stomach and swing yourself feebly at the wall once again.","p");
-							printStoryText("You notice, with your dim peripheral vision, that the wall has almost given.","p");
-							batteredness = batteredness + 1;
-							wallStrength = wallStrength +1;
-						}else if(wallStrength === 4){
-							printStoryText("Too exhausted to run, you claw at the crumbling boards. So close...","p");
-							batteredness = batteredness + 1;
-							wallStrength = wallStrength +1;
-						}else{
-							window.open("wallescape.html", '_self', false);
-
-						}
-					}else{}
-				}else{}
-				//figure out how to put thing into inventory
+				useTheThing(command);
 
 			}else if (command.search("look") > -1){
-				if (warehouseRoom === "beginning"){
-					if (command.search("boxes") > -1){
-						if(boxes === "stacked"){
-							printStoryText("In front of you, there are stacks of boxes piled dangerously high. Motes of dust float gently down onto them.", "p");
-						}else{
-							printStoryText("A half-fallen stack of boxes lies at your feet. The closest one is covered in dark oily slick. You hesitate to move forwards.", "p");
-						}
-					}else if (command.search("crates") > -1){
-						printStoryText("There are no crates in this room. There are old melted plastic boxes. You see no crates. Did someone tell you tell you there were crates? Who was it. Who would spread such slander?", "p");
-					}else if (command.search("pulley") > -1){
-
-					}else if (command.search("boards") > -1){
-
-					}else if (command.search("tarp") > -1){
-
-					}else if (command.search("nuclear") > -1){
-
-					}else if(command.search("Jed") > -1){
-						//add a randomized thing that says what jed is doing.
-						printStoryText("Jed's just a really cool guy, y'know? You don't really want to bother Jed do you? He's just sitting around, fiddling with his headphones, but he's doing it amazingly and you probably shouldn't stop him.", "p");
-
-					}else{
-						printStoryText("Not focusing on anything in particular, you take in the room.", "p");
-					}
-
-				}else if (warehouseRoom === "middle"){
-
-				}else if (warehouseRoom === "end"){
-
-				}else{
-					alert("holy crap you've broken the game. Dead now.");
-					window.open("lose.html", '_self', false);
-				}
+				lookTheThing(command);
 
 			}else if (command.search("inventory") > -1){
 				if (inventory.length > 0){
@@ -162,21 +115,21 @@
 					story.appendChild(document.createElement("br"));
 				}
 
-				if(wearing.length > 0){
-					//fix this one. For some reason it can't print what you're currently wearing, even though it's the same exact code as the inventory uses yaaaaay
-					story.appendChild(document.createTextNode("You are wearing:"));
-					story.appendChild(document.createElement("br"));
-					var iList = document.createElement("ul");
-					for(var i = 0; i<wearing.length; i++){
-						var item = document.createElement("li");
-						item.appendChild(document.createTextNode(wearing[i].Name));
-						iList.appendChild(item);
-					}
-					story.appendChild(iList);
-				}else{
-					printStoryText("You are buck naked, and not a little embarrassed.")
-				}
-	
+				// }if(wearing.length > 0){
+				// 	//fix this one. For some reason it can't print what you're currently wearing, even though it's the same exact code as the inventory uses yaaaaay
+				// 	story.appendChild(document.createTextNode("You are wearing:"));
+				// 	story.appendChild(document.createElement("br"));
+				// 	var iList = document.createElement("ul");
+				// 	for(var i = 0; i<wearing.length; i++){
+				// 		var item = document.createElement("li");
+				// 		item.appendChild(document.createTextNode(wearing[i].Name));
+				// 		iList.appendChild(item);
+				// 	}
+				// 	story.appendChild(iList);
+				// }else{
+				// 	printStoryText("You are buck naked, and not a little embarrassed.")
+				// }
+
 			}else if (command.search("north") >-1){
 				if(warehouseRoom === "beginning"){
 					if(boxes === "stacked"){
@@ -206,7 +159,7 @@
 						printStoryText("Back at the pulley controls, you slowly move the nuclear containment barrel back into position, high above the tarp.","p");
 						heavyPulley = "up";
 					}
-					
+
 				}else if (warehouseRoom=== "middle"){
 
 				}else if (warehouseRoom === "end"){
@@ -218,7 +171,7 @@
 
 			}else if (command.search("east") > -1){
 				if(warehouseRoom === "beginning"){
-					
+
 				}else if (warehouseRoom=== "middle"){
 
 				}else if (warehouseRoom === "end"){
@@ -230,7 +183,7 @@
 
 			}else if (command.search("west") > -1){
 				if(warehouseRoom === "beginning"){
-					
+
 				}else if (warehouseRoom=== "middle"){
 
 				}else if (warehouseRoom === "end"){
@@ -244,6 +197,13 @@
 				printStoryText("Your plaintive sounds echo across the metal barrel. It sounds like someone killing a cat. Well, if you really need help this bad... stop yodeling. Stop. Look, your ears are bleeding. Soft sticky ooze that rolls down the sides of your cheeks like tears, landing on the ground and soaking through, further and further, deep into the ground...","p");
 				printStoryText("Okay. Just look down BELOW the ground, okay? Below them dusty boards.", "p");
 				batteredness = batteredness + 1;
+
+			}else if(command.search("tea")>-1){
+				if(isThatInMyPockets("No tea", inventory)){
+					alert("POW");
+				}else{
+					alert("BOOO");
+				}
 
 			}else if(command.search("rock") > -1){
 				jedRocks = jedRocks + 1;
@@ -302,9 +262,11 @@
 					//howto delay a function: window.setTimeout("javascript function", milliseconds);
 				}
 			}
-			if(batteredness === 5){
+			if(batteredness === 3){
+				printStoryText("You stare for a moment at a blooming bruise on your hand. It's the color of spilled wine of weak vintage.","p");
 
-			}else if(batteredness === 3){
+			}else if(batteredness === 5){
+				printStoryText("You're feeling a little woozy around the corners of your vision.")
 
 			}else if(batteredness === 10){
 
@@ -318,6 +280,100 @@
 				window.open("battereddeath.html", '_self', false);
 			}else{}
 			story.scrollTop = story.scrollHeight;
+		}
+
+		function takeTheThing(command){
+			if (command.search("box")> -1){
+				if (boxes = "stacked"){
+					printStoryText("What box? There are way too many boxes to see");
+				}else{
+					if(box = "unbroken"){
+						printStoryText("As you reach for the box, the hinges snap off. \"I didn't touch it,\" you whisper, on reflex","p");
+						printStoryText("You see a strange metal rod inside");
+					}else{
+						printStoryText("The greasy box looks too distasteful to want to put inside your faintly permissable backpack.", "p");
+					}
+				}
+			}else{}
+		}
+
+		function useTheThing(command){
+			if (command.search("self") > -1){
+				if (command.search("wall") > -1){
+					if (wallStrength === 0){
+						printStoryText("An idea dawns. You flex your arms, convincing yourself that you are possessed of a feline strength. You take a deep breath, and...run.", "p");
+						printStoryText("Your head hurts, but the visceral pain subsides some when you see a hairline crack in the musty wood.","p");
+						batteredness = batteredness + 1;
+						wallStrength = wallStrength +1;
+					}else if(wallStrength === 1){
+						printStoryText("Picking yourself back up, you tuck your arms into your armpits for a more areodynamic sprint. And to, you know, keep your survival instinct from trying to brace yourself against the rapidly approaching wall--", "p");
+						printStoryText("You try to pick yourself up, but it feels as though your right wrist may be broken.","p");
+						batteredness = batteredness + 1;
+						wallStrength = wallStrength + 1;
+					}else if(wallStrength === 2){
+						printStoryText("You need to escape. You NEED TO ESCAPE, you remind yourself. That life outside is the one that matters, none of these boxes and irradiated barrels and alarming pactches of tar...","p");
+						batteredness = batteredness + 1;
+						wallStrength = wallStrength +1;
+					}else if(wallStrength === 3){
+						printStoryText("You tried to hold that in your mind. Your ragged breathing sound somehow pulpy to your ears. You grasp your stomach and swing yourself feebly at the wall once again.","p");
+						printStoryText("You notice, with your dim peripheral vision, that the wall has almost given.","p");
+						batteredness = batteredness + 1;
+						wallStrength = wallStrength +1;
+					}else if(wallStrength === 4){
+						printStoryText("Too exhausted to run, you claw at the crumbling boards. So close...","p");
+						batteredness = batteredness + 1;
+						wallStrength = wallStrength +1;
+					}else{
+						window.open("wallescape.html", '_self', false);
+
+					}
+				}else{}
+			}else{}
+			//figure out how to put thing into inventory
+
+		}
+
+		function lookTheThing(command){
+			if (warehouseRoom === "beginning"){
+				if (command.search("boxes") > -1){
+					if(boxes === "stacked"){
+						printStoryText("In front of you, there are stacks of boxes piled dangerously high. Motes of dust float gently down onto them.", "p");
+					}else{
+						printStoryText("A half-fallen stack of boxes lies at your feet. The closest one is covered in dark oily slick. You hesitate to move forwards.", "p");
+					}
+				}else if(command.search("box") > -1){
+					if(boxes === "stacked"){
+						printStoryText("There are too many boxes to focus on any one. You notice that while some are made of simple wood, others are tight sealed plastic covered in some kind of residue.","p");
+					}else{
+						printStoryText("The oily box sitting practically on your toes looks slightly cracked around the hinges.")
+					}
+				}else if (command.search("crates") > -1){
+					printStoryText("There are no crates in this room. There are old melted plastic boxes. You see no crates. Did someone tell you tell you there were crates? Who was it. Who would spread such slander?", "p");
+				}else if (command.search("pulley") > -1){
+
+				}else if (command.search("boards") > -1){
+
+				}else if (command.search("tarp") > -1){
+
+				}else if (command.search("nuclear") > -1){
+
+				}else if(command.search("Jed") > -1){
+					//add a randomized thing that says what jed is doing.
+					printStoryText("Jed's just a really cool guy, y'know? You don't really want to bother Jed do you? He's just sitting around, fiddling with his headphones, but he's doing it amazingly and you probably shouldn't stop him.", "p");
+
+				}else{
+					printStoryText("Not focusing on anything in particular, you take in the room. In front of you, there's a large number of boxes. To the left there's a concrete barrel held aloft by an untrustworthy looking crane and pulley system, whos controls are located right behind you, to the south. To your right there's merely a large expanse of dusty wooden planks.", "p");
+				}
+
+			}else if (warehouseRoom === "middle"){
+
+			}else if (warehouseRoom === "end"){
+
+			}else{
+				alert("holy crap you've broken the game. Dead now.");
+				window.open("lose.html", '_self', false);
+			}
+
 		}
 
 	</script>
@@ -346,7 +402,7 @@
 			discard noun<br/>
 			look (at noun) <br/>
 			use noun (on noun) <br/>
-			wear noun <br/>
+			<!-- wear noun <br/> -->
 			go direction <br/>
 			inventory <br/>
 			Hint: never capitalize the beginnings of sentences, capitalize (the first letter of) Proper Nouns like the great land of America and just type out words like crates.<br/>

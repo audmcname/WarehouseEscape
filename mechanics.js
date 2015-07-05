@@ -9,21 +9,16 @@ var inventory = [
 	Description:"rlkher"}
 	];
 var roomInventory = [
-	{Name:"moop",
-	Description:"mmoooper"}
 ];
 var warehouseRoom = "beginning";
 var escape = false;
 var heavyPulley = "up";
 //Gonna try objects
 var boxes = "stacked";
-
 var	plasticBox = "hidden"; //cycles through hidden, unbroken and broken
-
 var jedRocks = 0;
 var wallStrength = 0;
-//if this variable reaches...20? You die. A horrible sudden death.
-var batteredness = 0;
+var batteredness = 0; //if this variable reaches...20? You die. A horrible sudden death.
 
 //FUNCTIONS NOW-------------
 
@@ -78,16 +73,6 @@ function appendToBox(inputThing){
 	story.appendChild(document.createElement("br"));
 	story.appendChild(document.createElement("br"));
 }
-
-// function isThatInMyPockets(thingName, inventory){
-// 	for(var i = 0; i < inventory.length; i++){
-// 		temp = inventory[i];
-// 		if(thingName.search(temp["Name"]) > -1){
-// 			return true;
-// 		}
-// 	}
-// 	return false;
-// }
 
 function isThatInMyPockets(command, inventory){
 	for(var i = 0; i < inventory.length; i++){
@@ -197,69 +182,10 @@ function processLine(inputThing){
 		printStoryText("Okay. Just look down BELOW the ground, okay? Below them dusty boards.", "p");
 		batteredness = batteredness + 1;
 
-	}else if(command.search("tea")>-1){
-		if(isThatInMyPockets("No tea", inventory)){
-			alert("POW");
-		}else{
-			alert("BOOO");
-		}
-
 	}else if(command.search("rock") > -1){
-		jedRocks = jedRocks + 1;
-		if(jedRocks === 1){
-			printStoryText("You walk to Jed. He raises his eyebrows. \"Have I got the music for you, man,\" he says. \"Have I got the music for you.\" He pulls one of his earbuds out, passes it towards you...","p");
-			printStoryText("Dazed, you wake from a musical stupor. Golly, you think. Perhaps I shouldn't do that again.","p");
-			batteredness = batteredness + 1;
-		}else if(jedRocks === 2){
-			printStoryText("It's just so... smooth... like him, you think. Them tunes tho. You sit on the grungy ground and contemplate your shoes like you've never before.","p");
-			printStoryText("Your headache burns like the fires of...","p");
-			batteredness = batteredness + 1;
-		}else if(jedRocks === 3){
-			printStoryText("The charisma...the beat. Who cares about escape when you have these soft soulful twangs, heavy breathing... ","p");
-			batteredness = batteredness + 1;
-		}else if(jedRocks === 4){
-			printStoryText("YOU NEED TO STOP","p");
-			batteredness = batteredness + 1;
-		}else if(jedRocks === 5){
-			printStoryText("The ground is your pillow, the dust if your food, the music is water, Jed is a god.", "p");
-			batteredness = batteredness + 1;
-		}else{
-			window.open("jedRocks.html", '_self', false);
-		}
-
+		rockOutWithJed();
 	}else{
-		var randomError = Math.floor((Math.random() * 10) + 1);
-		if(randomError === 1){
-			printStoryText("You cough in the dust.", "p");
-		}else if(randomError === 2){
-			printStoryText("Your old army surplus backpack breaks a strap. Your entire inventory scatters over the rutted floor. The next five minutes are spent on a tedious clean up.", "p");
-		}else if(randomError === 3){
-			printStoryText("You wonder for a moment what everyone else in your life is doing. Someone's probably making toast. What kind of toast is it? Will they burn it? You sincerely hope not. You're kind of hungry.","p");
-		}else if(randomError === 4){
-			printStoryText("As you idly swing your arms, your thumb brushes up against some rotting wood. You pretend that you don't care about splinters.","p");
-
-		}else if(randomError === 5){
-			printStoryText("You just stand there, blank faced, like a fool. Foooooool you think you hear the wind say.","p");
-
-		}else if(randomError === 6){
-			printStoryText("You decide you want to look at the grime. It's nice grime, you think. Really spectacular.","P");
-
-		}else if(randomError === 7){
-			printStoryText("You wonder why you can't just beat at the wall until it breaks. It's pretty flimsy, you think. I could probably do this really easy. Just use self on wall. But...nah. It would never work.", "p");
-
-		}else if(randomError === 8){
-			printStoryText("You have the sudden urge to yodel for help", "p");
-
-		}else if(randomError === 9){
-			printStoryText("You feel a strange heat creep up your fingers. Probably just a placebo, trick of the mind, you think.","p");
-
-		}else if(randomError === 10){
-			printStoryText("Why am I in here, you wonder. Why did I have the stupid idea to just walk into a obviously marked radiation storage building, all alone-- \"Hey man!\" says your friend Jed who's been sitting in the corner quietly all along. \"Wanna rock out to some tunes?\"", "p");
-
-		}else{
-			printStoryText("Ded.", "p");
-			//howto delay a function: window.setTimeout("javascript function", milliseconds);
-		}
+		throwRandomError();
 	}
 	if(batteredness === 3){
 		printStoryText("You stare for a moment at a blooming bruise on your hand. It's the color of spilled wine of weak vintage.","p");
@@ -343,7 +269,9 @@ function useTheThing(command){
 				window.open("wallescape.html", '_self', false);
 
 			}
-		}else{}
+		}else{
+			throwRandomError();
+		}
 	}else{}
 	//figure out how to put thing into inventory
 
@@ -377,9 +305,12 @@ function lookTheThing(command){
 			//add a randomized thing that says what jed is doing.
 			printStoryText("Jed's just a really cool guy, y'know? You don't really want to bother Jed do you? He's just sitting around, fiddling with his headphones, but he's doing it amazingly and you probably shouldn't stop him.", "p");
 
-		}//else if inventorySearch etc etc{}
+		}else if (isThatInMyPockets(command,inventory) > -1){
+			var index = isThatInMyPockets(command,inventory);
+			var item = inventory[index];
+			printStoryText(item.Description,"p");
 
-		else{
+		}else{
 			printStoryText("Not focusing on anything in particular, you take in the room. In front of you, there's a large number of boxes. To the left there's a concrete barrel held aloft by an untrustworthy looking crane and pulley system, whos controls are located right behind you, to the south. To your right there's merely a large expanse of dusty wooden planks.", "p");
 		}
 
@@ -391,7 +322,6 @@ function lookTheThing(command){
 		alert("holy crap you've broken the game. Dead now.");
 		window.open("lose.html", '_self', false);
 	}
-
 }
 
 function dropTheThing(command){
@@ -403,5 +333,57 @@ function dropTheThing(command){
 		printStoryText("You drop the " + item.Name + " to the floor.", "p");
 	}else{
 		printStoryText("meh bro", "p");
+	}
+}
+
+function rockOutWithJed(){
+	jedRocks = jedRocks + 1;
+	if(jedRocks === 1){
+		printStoryText("You walk to Jed. He raises his eyebrows. \"Have I got the music for you, man,\" he says. \"Have I got the music for you.\" He pulls one of his earbuds out, passes it towards you...","p");
+		printStoryText("Dazed, you wake from a musical stupor. Golly, you think. Perhaps I shouldn't do that again.","p");
+		batteredness = batteredness + 1;
+	}else if(jedRocks === 2){
+		printStoryText("It's just so... smooth... like him, you think. Them tunes tho. You sit on the grungy ground and contemplate your shoes like you've never before.","p");
+		printStoryText("Your headache burns like the fires of...","p");
+		batteredness = batteredness + 1;
+	}else if(jedRocks === 3){
+		printStoryText("The charisma...the beat. Who cares about escape when you have these soft soulful twangs, heavy breathing... ","p");
+		batteredness = batteredness + 1;
+	}else if(jedRocks === 4){
+		printStoryText("YOU NEED TO STOP","p");
+		batteredness = batteredness + 1;
+	}else if(jedRocks === 5){
+		printStoryText("The ground is your pillow, the dust if your food, the music is water, Jed is a god.", "p");
+		batteredness = batteredness + 1;
+	}else{
+		window.open("jedRocks.html", '_self', false);
+	}
+}
+
+function throwRandomError(){
+	var randomError = Math.floor((Math.random() * 10) + 1);
+	if(randomError === 1){
+		printStoryText("You cough in the dust.", "p");
+	}else if(randomError === 2){
+		printStoryText("Your old army surplus backpack breaks a strap. Your entire inventory scatters over the rutted floor. The next five minutes are spent on a tedious clean up.", "p");
+	}else if(randomError === 3){
+		printStoryText("You wonder for a moment what everyone else in your life is doing. Someone's probably making toast. What kind of toast is it? Will they burn it? You sincerely hope not. You're kind of hungry.","p");
+	}else if(randomError === 4){
+		printStoryText("As you idly swing your arms, your thumb brushes up against some rotting wood. You pretend that you don't care about splinters.","p");
+	}else if(randomError === 5){
+		printStoryText("You just stand there, blank faced, like a fool. Foooooool you think you hear the wind say.","p");
+	}else if(randomError === 6){
+		printStoryText("You decide you want to look at the grime. It's nice grime, you think. Really spectacular.","p");
+	}else if(randomError === 7){
+		printStoryText("You wonder why you can't just beat at the wall until it breaks. It's pretty flimsy, you think. I could probably do this really easy. Just use self on wall. But...nah. It would never work.", "p");
+	}else if(randomError === 8){
+		printStoryText("You have the sudden urge to yodel for help", "p");
+	}else if(randomError === 9){
+		printStoryText("You feel a strange heat creep up your fingers. Probably just a placebo, trick of the mind, you think.","p");
+	}else if(randomError === 10){
+		printStoryText("Why am I in here, you wonder. Why did I have the stupid idea to just walk into a obviously marked radiation storage building, all alone-- \"Hey man!\" says your friend Jed who's been sitting in the corner quietly all along. \"Wanna rock out to some tunes?\"", "p");
+	}else{
+		printStoryText("Ded.", "p");
+		//howto delay a function: window.setTimeout("javascript function", milliseconds);
 	}
 }

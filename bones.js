@@ -11,10 +11,17 @@ window.onload = function(){
 function printStoryText(textToShow, textStyle){
 	var story = document.getElementById("storybox");
 	var userText = document.createElement(textStyle);
-	userText.appendChild(document.createTextNode(textToShow));
-	story.appendChild(userText);
-	story.appendChild(document.createElement("br"));
-	return(userText);
+	if(typeof textToShow === "object"){
+		for(i = 0; i < textToShow.length; i++){
+			printStoryText(textToShow[i], textStyle);
+		}
+	}else{
+		userText.appendChild(document.createTextNode(textToShow));
+		//userText.appendChild(document.createTextNode(typeof textToShow));
+		story.appendChild(userText);
+		story.appendChild(document.createElement("br"));
+		return(userText);
+	}
 }
 
 function textKeyPress(inputThing){
@@ -37,13 +44,11 @@ function appendToBox(inputThing){
 }
 //-----------------------------------------------------------------------------------------------------------
 
-var player = {
-	//If this didn't exist, you could play the game forever and ever and ever and we don't want that do we.
-	var turnCount = 0;
-	var inventory = [{"Name":"No tea"}];
-	var wearing = [{"Name":"Pants", "Name":"Shirt", "Name":"Shoes"}];
-	var escape = false;
-	var jedRocks = 0;
-	//if this variable reaches...20? You die. A horrible sudden death.
-	var batteredness = 0;
-}
+//If this didn't exist, you could play the game forever and ever and ever and we don't want that do we.
+var turnCount = 0;
+var inventory = [{"Name":"No tea"}, {"Name":"Nothin\'"}];
+//var wearing = [{"Name":"Pants", "Name":"Shirt", "Name":"Shoes"}];
+var escape = false;
+var jedRocks = 0;
+//if this variable reaches...20? You die. A horrible sudden death.
+var batteredness = 0;
